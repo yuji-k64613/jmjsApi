@@ -315,7 +315,7 @@ var Component = function(id){
 Component.prototype.setEnabled = function(b) {
 
 };
-var Canvas = function(id) {
+var Canvas = function(id, visible) {
 	if (arguments.length < 1) {
 		return;
 	}
@@ -328,7 +328,7 @@ var Canvas = function(id) {
 	this.ctx = this.canvas.getContext('2d');
 	this.ctx.font = "" + Resource.fontSize + "px 'Monotype Corsiva'";
 
-	this.graphics = new Graphics(this.ctx);
+	this.graphics = new Graphics(this.ctx, visible);
 };
 Canvas.prototype = new Component();
 
@@ -388,7 +388,10 @@ Canvas.prototype.createImage2 = function(pid, id, w, h) {
 	var p = Jmj.div; // document.getElementById("page2_content");
 	p.appendChild(c);
 
-	var canvas = new Canvas(id);
+	// @FOO
+	//var canvas = new Canvas(id);
+	var canvas = new Canvas(id, false);
+
 	return canvas;
 };
 var Image = function(canvas, img) {
@@ -414,7 +417,7 @@ Image.prototype.getGraphics = function() {
 Image.prototype.getImage = function() {
 	return this.img;
 };
-var Graphics = function(ctx) {
+var Graphics = function(ctx, visible) {
 	//if (arguments.length < 1) {
 	//	return;
 	//}
@@ -425,8 +428,12 @@ var Graphics = function(ctx) {
 	this.isColorSet = false;
 	this.center = 0;
 	this.ctx.lineWidth = 1;
+
+	this.visible = visible;
 };
 //Graphics.prototype = new Component();
+Graphics.off_x = 0;
+Graphics.off_y = 0;
 
 Graphics.prototype.getContext = function() {
 	return this.ctx;
@@ -442,6 +449,13 @@ Graphics.prototype.dispose = function() {
 //};
 
 Graphics.prototype.clearRect = function(x, y, x2, y2) {
+	if (this.visible){
+		x += Graphics.off_x;
+		y += Graphics.off_y;
+		x2 += Graphics.off_x;
+		y2 += Graphics.off_y;
+	}
+
 	x *= canvasScale;
 	y *= canvasScale;
 	x2 *= canvasScale;
@@ -463,11 +477,18 @@ Graphics.prototype.clearRect = function(x, y, x2, y2) {
 };
 
 Graphics.prototype.fillRect = function(x, y, x2, y2) {
+	if (this.visible){
+		x += Graphics.off_x;
+		y += Graphics.off_y;
+		x2 += Graphics.off_x;
+		y2 += Graphics.off_y;
+	}
+
 	x *= canvasScale;
 	y *= canvasScale;
 	x2 *= canvasScale;
 	y2 *= canvasScale;
-	
+
 	x = x | 0;
 	y = y | 0;
 	x2 = x2 | 0;
@@ -486,9 +507,14 @@ Graphics.prototype.fillRect = function(x, y, x2, y2) {
 
 //Graphics.prototype.drawString = function(str, x, y, anchor, color) {
 Graphics.prototype.drawString = function(str, x, y, anchor) {
+	if (this.visible){
+		x += Graphics.off_x;
+		y += Graphics.off_y;
+	}
+
 	x *= canvasScale;
 	y *= canvasScale;
-	
+
 	x = x | 0;
 	y = y | 0;
 
@@ -505,10 +531,17 @@ Graphics.prototype.drawString = function(str, x, y, anchor) {
 };
 
 Graphics.prototype.drawLine = function(x1, y1, x2, y2, b) {
+	if (this.visible){
+		x1 += Graphics.off_x;
+		y1 += Graphics.off_y;
+		x2 += Graphics.off_x;
+		y2 += Graphics.off_y;
+	}
+
 	if (arguments.length < 5) {
 		b = true;
 	}
-	
+
 	x1 *= canvasScale;
 	y1 *= canvasScale;
 	x2 *= canvasScale;
@@ -520,7 +553,7 @@ Graphics.prototype.drawLine = function(x1, y1, x2, y2, b) {
 		x2 = x2 | 0;
 		y2 = y2 | 0;
 	}
-	
+
 	//@this.ctx.beginPath();
 	//this.ctx.strokeStyle = "rgba(0, 0, 0, 1.0)";
 	this.setColor();
@@ -530,9 +563,14 @@ Graphics.prototype.drawLine = function(x1, y1, x2, y2, b) {
 };
 
 Graphics.prototype.drawOval = function(x, y, w, h) {
+	if (this.visible){
+		x += Graphics.off_x;
+		y += Graphics.off_y;
+	}
+
 	x += w / 2;
 	y += h / 2;
-	var r = Math.floor((w + h) / 4);	
+	var r = Math.floor((w + h) / 4);
 
 	x *= canvasScale;
 	y *= canvasScale;
@@ -551,10 +589,15 @@ Graphics.prototype.drawOval = function(x, y, w, h) {
 };
 
 Graphics.prototype.fillOval = function(x, y, w, h) {
+	if (this.visible){
+		x += Graphics.off_x;
+		y += Graphics.off_y;
+	}
+
 	x += w / 2;
 	y += h / 2;
 	var r = Math.floor((w + h) / 4);
-	
+
 	x *= canvasScale;
 	y *= canvasScale;
 	r *= canvasScale;
@@ -566,7 +609,7 @@ Graphics.prototype.fillOval = function(x, y, w, h) {
 	y += 1;
 	if (r < 1){
 		r = 1;
-	}		
+	}
 
 	//@this.ctx.beginPath();
 	this.setColor();
@@ -576,6 +619,11 @@ Graphics.prototype.fillOval = function(x, y, w, h) {
 };
 
 Graphics.prototype.drawCircle = function(x, y, r) {
+	if (this.visible){
+		x += Graphics.off_x;
+		y += Graphics.off_y;
+	}
+
 	x *= canvasScale;
 	y *= canvasScale;
 	r *= canvasScale;
@@ -593,6 +641,11 @@ Graphics.prototype.drawCircle = function(x, y, r) {
 
 //Graphics.prototype.drawImage = function(i, x, y, size) {
 Graphics.prototype.putImageData = function(img, x, y, obj) {
+	if (this.visible){
+		x += Graphics.off_x;
+		y += Graphics.off_y;
+	}
+
 	x *= canvasScale;
 	y *= canvasScale;
 
@@ -610,13 +663,18 @@ Graphics.prototype.putImageData = function(img, x, y, obj) {
 };
 
 Graphics.prototype.drawImage = function(offscrn, x, y){
+	if (this.visible){
+		x += Graphics.off_x;
+		y += Graphics.off_y;
+	}
+
 	x *= canvasScale;
 	y *= canvasScale;
 	x = x | 0;
 	y = y | 0;
 	this.ctx.drawImage(offscrn.getCanvas(), x, y);
 };
-			
+
 Graphics.prototype.beginPath = function() {
 	this.ctx.beginPath();
 };
@@ -646,7 +704,7 @@ Graphics.prototype.setColor = function(c) {
 	if (arguments.length < 1) {
 		if (this.isColorSet){
 			this.ctx.strokeStyle = this.strokeStyle;
-			this.ctx.fillStyle = this.fillStyle;		
+			this.ctx.fillStyle = this.fillStyle;
 		}
 		this.isColorSet = false;
 	}
@@ -656,7 +714,7 @@ Graphics.prototype.setColor = function(c) {
 		if (this.strokeStyle != ss || this.fillStyle != fs){
 			this.strokeStyle = ss;
 			this.fillStyle = fs;
-			this.isColorSet = true;		
+			this.isColorSet = true;
 		}
 	}
 };
@@ -1324,7 +1382,9 @@ Jmj.prototype.init = function(isInit) {
 		this.image_gc = this.image_pixmap.getGraphics();
 	} else {
 		//@this.imf = Clazz.innerTypeInstance(Jmj.ImageFrame, this, null, this);
-		this.imf = new Canvas('canvas');
+		// @FOO
+		//this.imf = new Canvas('canvas');
+		this.imf = new Canvas('canvas', true);
 		//( $t$ = Jmj.Y_OFFSET = 20, Jmj.prototype.Y_OFFSET = Jmj.Y_OFFSET, $t$);
 		Jmj.Y_OFFSET = 20;
 		this.imf.setLayout(null);
@@ -4262,13 +4322,15 @@ function initCanvas(){
 //	var p1 = $('#page1');
 //	var w = p1.width();
 //	var h = p1.height();
-	var w = 480;
-	var h = 400;
+	var w = Jmj.canvas.width; //480;
+	var h = Jmj.canvas.height; //600;
 	// @FOO end
 	var dx = 1.25;
 	var d = 0.95;
 	//var max = Jmj.IMAGE_WIDTH * dx * d;
 
+// @FOO start
+/*
 	if (w >= Jmj.IMAGE_WIDTH * dx / d){
 		w = Jmj.IMAGE_WIDTH * dx;
 	}
@@ -4279,8 +4341,22 @@ function initCanvas(){
 		w *= d;
 	}
 	canvasScale = w / Jmj.IMAGE_WIDTH;
-	// @FOO
+*/
+	// 480x400が基本のサイズ
+	if (w / h > Jmj.IMAGE_WIDTH / Jmj.IMAGE_HEIGHT){
+		// 横に長い
+		canvasScale = (h / Jmj.IMAGE_HEIGHT) * d;
+		var diff = (w - Jmj.IMAGE_WIDTH * (h / Jmj.IMAGE_HEIGHT))
+		Graphics.off_x = ((diff / 2) / canvasScale) | 0;
+	}
+	else {
+		// 縦に長い
+		canvasScale = (w / Jmj.IMAGE_WIDTH) * d;
+		var diff = (h - Jmj.IMAGE_HEIGHT * (w / Jmj.IMAGE_WIDTH))
+		Graphics.off_y = ((diff / 2) / canvasScale) | 0;
+	}
 	return;
+// @FOO end
 
 	h = Jmj.IMAGE_HEIGHT * canvasScale;
 
@@ -4322,6 +4398,8 @@ function initPage(e){
 	}
 }
 
+// @FOO
+/*
 function changePage(e, d){
 	//var id = e.target.id;
 	var id = d.toPage.get(0).id;
@@ -4343,8 +4421,6 @@ function changePage(e, d){
 	}
 };
 
-// @FOO
-/*
 var isMobile = false;
 var isAndroid = false;
 var isIOS = false;

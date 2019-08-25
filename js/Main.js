@@ -56,13 +56,15 @@ function initCanvas(){
 //	var p1 = $('#page1');
 //	var w = p1.width();
 //	var h = p1.height();
-	var w = 480;
-	var h = 400;
+	var w = Jmj.canvas.width; //480;
+	var h = Jmj.canvas.height; //600;
 	// @FOO end
 	var dx = 1.25;
 	var d = 0.95;
 	//var max = Jmj.IMAGE_WIDTH * dx * d;
 
+// @FOO start
+/*
 	if (w >= Jmj.IMAGE_WIDTH * dx / d){
 		w = Jmj.IMAGE_WIDTH * dx;
 	}
@@ -73,8 +75,22 @@ function initCanvas(){
 		w *= d;
 	}
 	canvasScale = w / Jmj.IMAGE_WIDTH;
-	// @FOO
+*/
+	// 480x400が基本のサイズ
+	if (w / h > Jmj.IMAGE_WIDTH / Jmj.IMAGE_HEIGHT){
+		// 横に長い
+		canvasScale = (h / Jmj.IMAGE_HEIGHT) * d;
+		var diff = (w - Jmj.IMAGE_WIDTH * (h / Jmj.IMAGE_HEIGHT))
+		Graphics.off_x = ((diff / 2) / canvasScale) | 0;
+	}
+	else {
+		// 縦に長い
+		canvasScale = (w / Jmj.IMAGE_WIDTH) * d;
+		var diff = (h - Jmj.IMAGE_HEIGHT * (w / Jmj.IMAGE_WIDTH))
+		Graphics.off_y = ((diff / 2) / canvasScale) | 0;
+	}
 	return;
+// @FOO end
 
 	h = Jmj.IMAGE_HEIGHT * canvasScale;
 
@@ -116,6 +132,8 @@ function initPage(e){
 	}
 }
 
+// @FOO
+/*
 function changePage(e, d){
 	//var id = e.target.id;
 	var id = d.toPage.get(0).id;
@@ -137,8 +155,6 @@ function changePage(e, d){
 	}
 };
 
-// @FOO
-/*
 var isMobile = false;
 var isAndroid = false;
 var isIOS = false;

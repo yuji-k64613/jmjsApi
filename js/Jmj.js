@@ -144,7 +144,9 @@ Jmj.prototype.init = function(isInit) {
 		this.image_gc = this.image_pixmap.getGraphics();
 	} else {
 		//@this.imf = Clazz.innerTypeInstance(Jmj.ImageFrame, this, null, this);
-		this.imf = new Canvas('canvas');
+		// @FOO
+		//this.imf = new Canvas('canvas');
+		this.imf = new Canvas('canvas', true);
 		//( $t$ = Jmj.Y_OFFSET = 20, Jmj.prototype.Y_OFFSET = Jmj.Y_OFFSET, $t$);
 		Jmj.Y_OFFSET = 20;
 		this.imf.setLayout(null);

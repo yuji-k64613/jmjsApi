@@ -1,4 +1,4 @@
-var Canvas = function(id) {
+var Canvas = function(id, visible) {
 	if (arguments.length < 1) {
 		return;
 	}
@@ -11,7 +11,7 @@ var Canvas = function(id) {
 	this.ctx = this.canvas.getContext('2d');
 	this.ctx.font = "" + Resource.fontSize + "px 'Monotype Corsiva'";
 
-	this.graphics = new Graphics(this.ctx);
+	this.graphics = new Graphics(this.ctx, visible);
 };
 Canvas.prototype = new Component();
 
@@ -71,6 +71,9 @@ Canvas.prototype.createImage2 = function(pid, id, w, h) {
 	var p = Jmj.div; // document.getElementById("page2_content");
 	p.appendChild(c);
 
-	var canvas = new Canvas(id);
+	// @FOO
+	//var canvas = new Canvas(id);
+	var canvas = new Canvas(id, false);
+
 	return canvas;
 };
