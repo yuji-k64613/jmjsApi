@@ -1,4 +1,0 @@
-var MessageBox = function(){
-	
-};
-

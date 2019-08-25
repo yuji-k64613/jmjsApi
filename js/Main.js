@@ -1,5 +1,10 @@
 var jmj = null;
 function initJmj(e) {
+	// @FOO start
+	Jmj.div = e.div;
+	Jmj.canvas = e.canvas;
+	// @FOO ebd
+
 	if (jmj == null){
 		initCanvas();
 	}
@@ -49,10 +54,11 @@ var canvasScale = 1.0;
 function initCanvas(){
 	// @FOO start
 //	var p1 = $('#page1');
-	var p1 = $('#page2');
+//	var w = p1.width();
+//	var h = p1.height();
+	var w = 480;
+	var h = 400;
 	// @FOO end
-	var w = p1.width();
-	var h = p1.height();
 	var dx = 1.25;
 	var d = 0.95;
 	//var max = Jmj.IMAGE_WIDTH * dx * d;
@@ -67,6 +73,9 @@ function initCanvas(){
 		w *= d;
 	}
 	canvasScale = w / Jmj.IMAGE_WIDTH;
+	// @FOO
+	return;
+
 	h = Jmj.IMAGE_HEIGHT * canvasScale;
 
 	w = Math.round(w);
@@ -128,6 +137,8 @@ function changePage(e, d){
 	}
 };
 
+// @FOO
+/*
 var isMobile = false;
 var isAndroid = false;
 var isIOS = false;
@@ -218,11 +229,14 @@ function getQueryString() {
   }
   return null;
 }
+*/
 
 // @FOO start
+/*
 $(function(){
 	$(document).ready(function(){
 		initJmj(null);
 	});
 })
+*/
 // @FOO end

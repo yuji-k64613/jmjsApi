@@ -100,7 +100,8 @@ var Jmj = function() {
 	this.rhand = new Array(Jmj.PERMAX);
 	this.lhand = new Array(Jmj.PERMAX);
 	this.b = new Array(35);
-	this.msg = new MessageBox();
+	// @FOO
+	//this.msg = new MessageBox();
 	this.patt = Clazz.newArray(Jmj.LMAX, Jmj.MMAX, 0);
 	this.patts = Clazz.newArray(Jmj.LMAX, 0);
 	this.r = Clazz.newArray(Jmj.LMAX * 2, 0);
@@ -169,9 +170,12 @@ Jmj.prototype.init = function(isInit) {
 	if (isInit) {
 		this.controller = new JmjController(this, Jmj.getParameter("noquit"),
 				isInit);
+		// @FOO
+		/*
 		this.controller.setLocation(0, 0);
 		this.controller.setVisible(true);
 		this.controller.enableMenuBar();
+		*/
 	}
 	for ( var i = 0; i < Jmj.BMAX; i++) {
 		this.b[i] = new Ball();
@@ -1331,8 +1335,12 @@ Jmj.prototype.initSiteswapGraphics = function() {
 	var id;
 	var i;
 	var obj;
-	var c = $('#canvas');
-	var w = c.attr('width');
+	// @FOO start
+	//var c = $('#canvas');
+	//var w = c.attr('width');
+	var c = Jmj.canvas; //document.getElementById("canvas");
+	var w = c.getAttribute("width");
+	// @FOO end
 
 	w = w.replace('px', '');
 	w = Integer.parseInt(w);

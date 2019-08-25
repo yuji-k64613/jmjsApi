@@ -44,6 +44,9 @@ var JmjController = function(jmj, quitflag, isInit) {
 	this.sound_box = null;
 	this.prevIndex = 0;
 
+	// @FOO
+	return;
+
 	// property
 	this.dialog_text = new TextField('page4_text');
 
@@ -225,6 +228,9 @@ JmjController.prototype.setPernoLabel = function() {
 };
 
 JmjController.prototype.setLabels = function() {
+	// @FOO
+	return;
+
 	this.pattern_value.setText(this.jmj.pattern);
 	this.ballno_value.setText(String.valueOf(this.jmj.ballno));
 	this.formation_value.setText(this.jmj.formation);
@@ -238,18 +244,27 @@ JmjController.prototype.setSpeed = function(speed) {
 };
 
 JmjController.prototype.setHeight = function(height) {
+	// @FOO
+	return;
+
 	//this.height_gauge.setValue(Math.round((height * 100)));
 	this.height_gauge.setValue(height);
 	this.setHeightLabel();
 };
 
 JmjController.prototype.setDwell = function(dwell) {
+	// @FOO
+	return;
+
 	//this.dwell_gauge.setValue(Math.round((dwell * 100)));
 	this.dwell_gauge.setValue(dwell);
 	this.setDwellLabel();
 };
 
 JmjController.prototype.setPerno = function(i) {
+	// @FOO
+	return;
+
 	JmjController.iPersonNo = i;
 	//this.perno_gauge.setValues(JmjController.iPersonNo, 1, Jmj.PERMIN, Jmj.iPerMax + 1);
 	this.perno_gauge.setValues(JmjController.iPersonNo, 1, Jmj.PERMIN, Jmj.iPerMax);
@@ -258,7 +273,9 @@ JmjController.prototype.setPerno = function(i) {
 
 JmjController.prototype.getSpeed = function() {
 	//return this.speed_gauge.getValue() / 10;
-	return this.speed_gauge.getValue();
+	// @FOO
+	//return this.speed_gauge.getValue();
+	return 0.5;
 };
 
 JmjController.prototype.GetHeight_ = function() {
@@ -272,7 +289,9 @@ JmjController.prototype.getDwell = function() {
 };
 
 JmjController.prototype.getPerNo = function() {
-	return this.perno_gauge.getValue();
+	// @FOO
+	//return this.perno_gauge.getValue();
+	return 0;
 };
 
 JmjController.prototype.ifShowBody = function() {
@@ -327,6 +346,9 @@ JmjController.prototype.forceNewChoice = function() {
 };
 
 JmjController.prototype.enableSwitches = function() {
+	// @FOO
+	return;
+
 	this.juggle_button.setEnabled(true);
 	this.pause_button.setEnabled(true);
 	this.patternList.setEnabled(true);
@@ -339,6 +361,9 @@ JmjController.prototype.disableSwitches = function() {
 };
 
 JmjController.prototype.putMessage = function(s1, s2) {
+	// @FOO
+	return;
+
 	this.putPrimaryMessage(s1);
 	this.putSecondaryMessage(s2);
 };
