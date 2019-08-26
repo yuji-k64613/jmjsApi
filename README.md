@@ -10,4 +10,5 @@
 - Canvasサイズ可変
 
 # サンプル
-https://yuji-k64613.github.io/jmjsApi/sample.html
+- https://yuji-k64613.github.io/jmjsApi/sample.html
+- https://yuji-k64613.github.io/jmjs/siteswap_editor.html
