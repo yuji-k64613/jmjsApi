@@ -39,14 +39,11 @@
 <!--
 		<script type="text/javascript" src="./js/jmjsApi.js" charset="UTF-8"></script>
 -->
-
 		<script type="text/javascript">
 			<!-- 初期化 -->
 			window.onload = function() {
 				initJmj(
 					{
-						// キャンバスの親(divタグ)
-						div: document.getElementById("parent"),
 						// キャンバス
 						canvas: document.getElementById("canvas")
 					}
@@ -57,7 +54,9 @@
 				jmj.startJuggling(
 					{
 						// サイトスワップを指定
-						siteswap: "51"
+						siteswap: "51",
+						// サイトスワップを非表示
+						showSiteswap: false
 					}
 				);
 			}
@@ -65,15 +64,16 @@
 				jmj.startJuggling(
 					{
 						// サイトスワップを指定
-						siteswap: "534"
+						siteswap: "534",
+						// サイトスワップを表示
+						showSiteswap: true
 					}
 				);
 			}
 		</script>
 		</head>
 	<body>
-		<!-- Canvas(divタグの中に配置すること) -->
-		<div id="parent" align="center">
+		<div align="center">
 			<canvas id="canvas" class="canvas" width="480px" height="400px" />
 		</div>
 

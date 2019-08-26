@@ -303,7 +303,7 @@ JmjController.prototype.ifShowBody = function() {
 JmjController.prototype.ifShowSiteSwap = function() {
 	// @FOO
 	//return this.ss_box.getState();
-	return true;
+	return Jmj.showSiteswap;
 };
 
 JmjController.prototype.ifMirror = function() {

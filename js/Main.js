@@ -1,7 +1,6 @@
 var jmj = null;
 function initJmj(e) {
 	// @FOO start
-	Jmj.div = e.div;
 	Jmj.canvas = e.canvas;
 	// @FOO ebd
 

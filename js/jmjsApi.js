@@ -319,11 +319,16 @@ var Canvas = function(id, visible) {
 	if (arguments.length < 1) {
 		return;
 	}
-	Component.apply(this, [id]);
-
-	// @FOO
-	//this.canvas = this.obj.get(0);
-	this.canvas = document.getElementById(id);
+	if (typeof id == 'string'){
+		Component.apply(this, [id]);
+		// @FOO
+		//this.canvas = this.obj.get(0);
+		this.canvas = document.getElementById(id);
+	}
+	else {
+		Component.apply(this, [null]);
+		this.canvas = id;
+	}
 
 	this.ctx = this.canvas.getContext('2d');
 	this.ctx.font = "" + Resource.fontSize + "px 'Monotype Corsiva'";
@@ -385,7 +390,10 @@ Canvas.prototype.createImage2 = function(pid, id, w, h) {
 	c.width = w;//String(w) + "px";
 	c.height = h;//String(h) + "px";
 	c.style = "display:none";
-	var p = Jmj.div; // document.getElementById("page2_content");
+	// IE11対策
+	c.style.display = "none";
+
+	var p = Jmj.canvas.parentElement; // document.getElementById("page2_content");
 	p.appendChild(c);
 
 	// @FOO
@@ -1384,7 +1392,7 @@ Jmj.prototype.init = function(isInit) {
 		//@this.imf = Clazz.innerTypeInstance(Jmj.ImageFrame, this, null, this);
 		// @FOO
 		//this.imf = new Canvas('canvas');
-		this.imf = new Canvas('canvas', true);
+		this.imf = new Canvas(Jmj.canvas, true);
 		//( $t$ = Jmj.Y_OFFSET = 20, Jmj.prototype.Y_OFFSET = Jmj.Y_OFFSET, $t$);
 		Jmj.Y_OFFSET = 20;
 		this.imf.setLayout(null);
@@ -1991,7 +1999,9 @@ var self = null; // 手抜き
 
 Jmj.prototype.startJuggling = function(index, s) {
 	// @FOO start
-	this.param = index;
+	index = index || {};
+	Jmj.siteswap = index.siteswap || "3";
+	Jmj.showSiteswap = (index.showSiteswap != null)? index.showSiteswap : true;
 	// @FOO end
 
 	if (arguments.length < 2) {
@@ -3410,7 +3420,7 @@ PatternHolder.prototype.getPattern = function(o, s) {
 	this.jmj.motion = "Shower"
 	this.jmj.$height = 0.2
 	this.jmj.dwell = 0.75
-	this.pattbarr = this.parsePattern(jmj.param.siteswap); // p.siteswap;
+	this.pattbarr = this.parsePattern(Jmj.siteswap); // p.siteswap;
 	this.jmj.formation = "1-Person";
 	var iCnt;
 	for ( iCnt = 0; iCnt < Jmj.PERMAX; iCnt++) {
@@ -4168,7 +4178,7 @@ JmjController.prototype.ifShowBody = function() {
 JmjController.prototype.ifShowSiteSwap = function() {
 	// @FOO
 	//return this.ss_box.getState();
-	return true;
+	return Jmj.showSiteswap;
 };
 
 JmjController.prototype.ifMirror = function() {
@@ -4267,7 +4277,6 @@ JmjController.prototype.setVisible = function(b) {
 var jmj = null;
 function initJmj(e) {
 	// @FOO start
-	Jmj.div = e.div;
 	Jmj.canvas = e.canvas;
 	// @FOO ebd
 

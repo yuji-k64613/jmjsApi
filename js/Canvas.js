@@ -2,11 +2,16 @@ var Canvas = function(id, visible) {
 	if (arguments.length < 1) {
 		return;
 	}
-	Component.apply(this, [id]);
-
-	// @FOO
-	//this.canvas = this.obj.get(0);
-	this.canvas = document.getElementById(id);
+	if (typeof id == 'string'){
+		Component.apply(this, [id]);
+		// @FOO
+		//this.canvas = this.obj.get(0);
+		this.canvas = document.getElementById(id);
+	}
+	else {
+		Component.apply(this, [null]);
+		this.canvas = id;
+	}
 
 	this.ctx = this.canvas.getContext('2d');
 	this.ctx.font = "" + Resource.fontSize + "px 'Monotype Corsiva'";
@@ -71,7 +76,7 @@ Canvas.prototype.createImage2 = function(pid, id, w, h) {
 	// IE11対策
 	c.style.display = "none";
 
-	var p = Jmj.div; // document.getElementById("page2_content");
+	var p = Jmj.canvas.parentElement; // document.getElementById("page2_content");
 	p.appendChild(c);
 
 	// @FOO

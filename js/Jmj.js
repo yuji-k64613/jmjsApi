@@ -146,7 +146,7 @@ Jmj.prototype.init = function(isInit) {
 		//@this.imf = Clazz.innerTypeInstance(Jmj.ImageFrame, this, null, this);
 		// @FOO
 		//this.imf = new Canvas('canvas');
-		this.imf = new Canvas('canvas', true);
+		this.imf = new Canvas(Jmj.canvas, true);
 		//( $t$ = Jmj.Y_OFFSET = 20, Jmj.prototype.Y_OFFSET = Jmj.Y_OFFSET, $t$);
 		Jmj.Y_OFFSET = 20;
 		this.imf.setLayout(null);
@@ -753,7 +753,9 @@ var self = null; // 手抜き
 
 Jmj.prototype.startJuggling = function(index, s) {
 	// @FOO start
-	this.param = index;
+	index = index || {};
+	Jmj.siteswap = index.siteswap || "3";
+	Jmj.showSiteswap = (index.showSiteswap != null)? index.showSiteswap : true;
 	// @FOO end
 
 	if (arguments.length < 2) {

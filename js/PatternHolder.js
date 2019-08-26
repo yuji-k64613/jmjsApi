@@ -322,7 +322,7 @@ PatternHolder.prototype.getPattern = function(o, s) {
 	this.jmj.motion = "Shower"
 	this.jmj.$height = 0.2
 	this.jmj.dwell = 0.75
-	this.pattbarr = this.parsePattern(jmj.param.siteswap); // p.siteswap;
+	this.pattbarr = this.parsePattern(Jmj.siteswap); // p.siteswap;
 	this.jmj.formation = "1-Person";
 	var iCnt;
 	for ( iCnt = 0; iCnt < Jmj.PERMAX; iCnt++) {
