@@ -68,6 +68,9 @@ Canvas.prototype.createImage2 = function(pid, id, w, h) {
 	c.width = w;//String(w) + "px";
 	c.height = h;//String(h) + "px";
 	c.style = "display:none";
+	// IE11対策
+	c.style.display = "none";
+
 	var p = Jmj.div; // document.getElementById("page2_content");
 	p.appendChild(c);
 
