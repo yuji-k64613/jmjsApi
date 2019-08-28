@@ -4,9 +4,11 @@ function initJmj(e) {
 	Jmj.canvas = e.canvas;
 	// @FOO ebd
 
-	if (jmj == null){
-		initCanvas();
-	}
+	// @FOO start
+	// if (jmj == null){
+	// 	initCanvas();
+	// }
+	// @FOO end
 
 	// @FOO start
 	//// page1のリストを削除
@@ -15,9 +17,10 @@ function initJmj(e) {
 	// @FOO end
 
 	// リストの作成開始のフラグを初期化
-	if (jmj != null){
-		jmj.controller.patternList.data = null;
-	}
+	// @FOO start
+	// if (jmj != null){
+	// 	jmj.controller.patternList.data = null;
+	// }
 
 	// @FOO start
 	//$('#page2_content').show();
@@ -25,23 +28,29 @@ function initJmj(e) {
 	//$('#page4_content').show();
 	// @FOO end
 
-	if (jmj == null){
-		jmj = new Jmj();
-		jmj.init(true);
-	}
-	else {
-		//jmj.openFile('');
-		jmj.init(false);
-		jmj.reload();
-
-		if (startPage != 'page1'){
-			var main = $("#main");
-			main.find("div[data-role=collapsible-set]").collapsibleset({refresh:true});
-			main.find("div[data-role=collapsible]").collapsible({refresh:true});
-			main.find("ul[data-role=listview]").listview({refresh:true});
-		}
-	}
-	initPage(e);
+	// @FOO start
+	// if (jmj == null){
+	// 	jmj = new Jmj();
+	// 	jmj.init(true);
+	// }
+	// else {
+	// 	//jmj.openFile('');
+	// 	jmj.init(false);
+	// 	jmj.reload();
+	//
+	// 	if (startPage != 'page1'){
+	// 		var main = $("#main");
+	// 		main.find("div[data-role=collapsible-set]").collapsibleset({refresh:true});
+	// 		main.find("div[data-role=collapsible]").collapsible({refresh:true});
+	// 		main.find("ul[data-role=listview]").listview({refresh:true});
+	// 	}
+	// }
+	jmj = new Jmj();
+	jmj.initCanvas();
+	jmj.init(true);
+	// @FOO end
+	//initPage(e);
+	jmj.initPage(e);
 
 	// @FOO start
 	//$('#loading1').hide();
@@ -49,58 +58,8 @@ function initJmj(e) {
 	// @FOO end
 }
 
-var canvasScale = 1.0;
-function initCanvas(){
-	// @FOO start
-//	var p1 = $('#page1');
-//	var w = p1.width();
-//	var h = p1.height();
-	var w = Jmj.canvas.width; //480;
-	var h = Jmj.canvas.height; //600;
-	// @FOO end
-	var dx = 1.25;
-	var d = 0.95;
-	//var max = Jmj.IMAGE_WIDTH * dx * d;
-
 // @FOO start
 /*
-	if (w >= Jmj.IMAGE_WIDTH * dx / d){
-		w = Jmj.IMAGE_WIDTH * dx;
-	}
-	else if (w >= Jmj.IMAGE_WIDTH){
-		w *= d;
-	}
-	else {
-		w *= d;
-	}
-	canvasScale = w / Jmj.IMAGE_WIDTH;
-*/
-	// 480x400が基本のサイズ
-	if (w / h > Jmj.IMAGE_WIDTH / Jmj.IMAGE_HEIGHT){
-		// 横に長い
-		canvasScale = (h / Jmj.IMAGE_HEIGHT) * d;
-		var diff = (w - Jmj.IMAGE_WIDTH * (h / Jmj.IMAGE_HEIGHT))
-		Graphics.off_x = ((diff / 2) / canvasScale) | 0;
-	}
-	else {
-		// 縦に長い
-		canvasScale = (w / Jmj.IMAGE_WIDTH) * d;
-		var diff = (h - Jmj.IMAGE_HEIGHT * (w / Jmj.IMAGE_WIDTH))
-		Graphics.off_y = ((diff / 2) / canvasScale) | 0;
-	}
-	return;
-// @FOO end
-
-	h = Jmj.IMAGE_HEIGHT * canvasScale;
-
-	w = Math.round(w);
-	h = Math.round(h);
-	var c1 = $('<canvas id="canvas" class="canvas" width="' + w + 'px" height="' + h + 'px">');
-
-	var m = $('#page2_content');
-	m.append(c1);
-}
-
 var isInit = null;
 var startPage = null;
 
@@ -110,8 +69,6 @@ function initPage(e){
 	// @FOO end
 	if (jmj != null){
 		jmj.initPage(e);
-		// @FOO
-		/*
 		if (isInit[id]){
 			if (id == 'page1'){
 				jmj.initPage1();
@@ -127,9 +84,10 @@ function initPage(e){
 			}
 			isInit[id] = false;
 		}
-		*/
 	}
 }
+*/
+// @FOO end
 
 // @FOO
 /*

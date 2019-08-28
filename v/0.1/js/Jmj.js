@@ -1813,6 +1813,57 @@ Jmj.prototype.getGraphics = function() {
 	return g;
 };
 
+Jmj.prototype.initCanvas = function() {
+	// @FOO start
+//	var p1 = $('#page1');
+//	var w = p1.width();
+//	var h = p1.height();
+	var w = Jmj.canvas.width; //480;
+	var h = Jmj.canvas.height; //600;
+	// @FOO end
+	var dx = 1.25;
+	var d = 0.95;
+	//var max = Jmj.IMAGE_WIDTH * dx * d;
+
+// @FOO start
+	/*
+		if (w >= Jmj.IMAGE_WIDTH * dx / d){
+			w = Jmj.IMAGE_WIDTH * dx;
+		}
+		else if (w >= Jmj.IMAGE_WIDTH){
+			w *= d;
+		}
+		else {
+			w *= d;
+		}
+		canvasScale = w / Jmj.IMAGE_WIDTH;
+	*/
+	// 480x400が基本のサイズ
+	if (w / h > Jmj.IMAGE_WIDTH / Jmj.IMAGE_HEIGHT){
+		// 横に長い
+		Graphics.canvasScale = (h / Jmj.IMAGE_HEIGHT) * d;
+		var diff = (w - Jmj.IMAGE_WIDTH * (h / Jmj.IMAGE_HEIGHT))
+		Graphics.off_x = ((diff / 2) / Graphics.canvasScale) | 0;
+	}
+	else {
+		// 縦に長い
+		Graphics.canvasScale = (w / Jmj.IMAGE_WIDTH) * d;
+		var diff = (h - Jmj.IMAGE_HEIGHT * (w / Jmj.IMAGE_WIDTH))
+		Graphics.off_y = ((diff / 2) / Graphics.canvasScale) | 0;
+	}
+	return;
+// @FOO end
+
+	h = Jmj.IMAGE_HEIGHT * canvasScale;
+
+	w = Math.round(w);
+	h = Math.round(h);
+	var c1 = $('<canvas id="canvas" class="canvas" width="' + w + 'px" height="' + h + 'px">');
+
+	var m = $('#page2_content');
+	m.append(c1);
+}
+
 Jmj.KW = 0.25;
 Jmj.XR = 1024;
 Jmj.DW = 290;

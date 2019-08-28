@@ -15,6 +15,7 @@ var Graphics = function(ctx, visible) {
 //Graphics.prototype = new Component();
 Graphics.off_x = 0;
 Graphics.off_y = 0;
+Graphics.canvasScale = 0;
 
 Graphics.prototype.getContext = function() {
 	return this.ctx;
@@ -37,10 +38,10 @@ Graphics.prototype.clearRect = function(x, y, x2, y2) {
 		y2 += Graphics.off_y;
 	}
 
-	x *= canvasScale;
-	y *= canvasScale;
-	x2 *= canvasScale;
-	y2 *= canvasScale;
+	x *= Graphics.canvasScale;
+	y *= Graphics.canvasScale;
+	x2 *= Graphics.canvasScale;
+	y2 *= Graphics.canvasScale;
 
 	x = x | 0;
 	y = y | 0;
@@ -65,10 +66,10 @@ Graphics.prototype.fillRect = function(x, y, x2, y2) {
 		y2 += Graphics.off_y;
 	}
 
-	x *= canvasScale;
-	y *= canvasScale;
-	x2 *= canvasScale;
-	y2 *= canvasScale;
+	x *= Graphics.canvasScale;
+	y *= Graphics.canvasScale;
+	x2 *= Graphics.canvasScale;
+	y2 *= Graphics.canvasScale;
 
 	x = x | 0;
 	y = y | 0;
@@ -93,8 +94,8 @@ Graphics.prototype.drawString = function(str, x, y, anchor) {
 		y += Graphics.off_y;
 	}
 
-	x *= canvasScale;
-	y *= canvasScale;
+	x *= Graphics.canvasScale;
+	y *= Graphics.canvasScale;
 
 	x = x | 0;
 	y = y | 0;
@@ -123,10 +124,10 @@ Graphics.prototype.drawLine = function(x1, y1, x2, y2, b) {
 		b = true;
 	}
 
-	x1 *= canvasScale;
-	y1 *= canvasScale;
-	x2 *= canvasScale;
-	y2 *= canvasScale;
+	x1 *= Graphics.canvasScale;
+	y1 *= Graphics.canvasScale;
+	x2 *= Graphics.canvasScale;
+	y2 *= Graphics.canvasScale;
 
 	if (b){
 		x1 = x1 | 0;
@@ -153,9 +154,9 @@ Graphics.prototype.drawOval = function(x, y, w, h) {
 	y += h / 2;
 	var r = Math.floor((w + h) / 4);
 
-	x *= canvasScale;
-	y *= canvasScale;
-	r *= canvasScale;
+	x *= Graphics.canvasScale;
+	y *= Graphics.canvasScale;
+	r *= Graphics.canvasScale;
 
 	x = x | 0;
 	y = y | 0;
@@ -179,9 +180,9 @@ Graphics.prototype.fillOval = function(x, y, w, h) {
 	y += h / 2;
 	var r = Math.floor((w + h) / 4);
 
-	x *= canvasScale;
-	y *= canvasScale;
-	r *= canvasScale;
+	x *= Graphics.canvasScale;
+	y *= Graphics.canvasScale;
+	r *= Graphics.canvasScale;
 
 	x = x | 0;
 	y = y | 0;
@@ -205,9 +206,9 @@ Graphics.prototype.drawCircle = function(x, y, r) {
 		y += Graphics.off_y;
 	}
 
-	x *= canvasScale;
-	y *= canvasScale;
-	r *= canvasScale;
+	x *= Graphics.canvasScale;
+	y *= Graphics.canvasScale;
+	r *= Graphics.canvasScale;
 
 	x = x | 0;
 	y = y | 0;
@@ -227,8 +228,8 @@ Graphics.prototype.putImageData = function(img, x, y, obj) {
 		y += Graphics.off_y;
 	}
 
-	x *= canvasScale;
-	y *= canvasScale;
+	x *= Graphics.canvasScale;
+	y *= Graphics.canvasScale;
 
 	x = x | 0;
 	y = y | 0;
@@ -249,8 +250,8 @@ Graphics.prototype.drawImage = function(offscrn, x, y){
 		y += Graphics.off_y;
 	}
 
-	x *= canvasScale;
-	y *= canvasScale;
+	x *= Graphics.canvasScale;
+	y *= Graphics.canvasScale;
 	x = x | 0;
 	y = y | 0;
 	this.ctx.drawImage(offscrn.getCanvas(), x, y);

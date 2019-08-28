@@ -442,6 +442,7 @@ var Graphics = function(ctx, visible) {
 //Graphics.prototype = new Component();
 Graphics.off_x = 0;
 Graphics.off_y = 0;
+Graphics.canvasScale = 0;
 
 Graphics.prototype.getContext = function() {
 	return this.ctx;
@@ -464,10 +465,10 @@ Graphics.prototype.clearRect = function(x, y, x2, y2) {
 		y2 += Graphics.off_y;
 	}
 
-	x *= canvasScale;
-	y *= canvasScale;
-	x2 *= canvasScale;
-	y2 *= canvasScale;
+	x *= Graphics.canvasScale;
+	y *= Graphics.canvasScale;
+	x2 *= Graphics.canvasScale;
+	y2 *= Graphics.canvasScale;
 
 	x = x | 0;
 	y = y | 0;
@@ -492,10 +493,10 @@ Graphics.prototype.fillRect = function(x, y, x2, y2) {
 		y2 += Graphics.off_y;
 	}
 
-	x *= canvasScale;
-	y *= canvasScale;
-	x2 *= canvasScale;
-	y2 *= canvasScale;
+	x *= Graphics.canvasScale;
+	y *= Graphics.canvasScale;
+	x2 *= Graphics.canvasScale;
+	y2 *= Graphics.canvasScale;
 
 	x = x | 0;
 	y = y | 0;
@@ -520,8 +521,8 @@ Graphics.prototype.drawString = function(str, x, y, anchor) {
 		y += Graphics.off_y;
 	}
 
-	x *= canvasScale;
-	y *= canvasScale;
+	x *= Graphics.canvasScale;
+	y *= Graphics.canvasScale;
 
 	x = x | 0;
 	y = y | 0;
@@ -550,10 +551,10 @@ Graphics.prototype.drawLine = function(x1, y1, x2, y2, b) {
 		b = true;
 	}
 
-	x1 *= canvasScale;
-	y1 *= canvasScale;
-	x2 *= canvasScale;
-	y2 *= canvasScale;
+	x1 *= Graphics.canvasScale;
+	y1 *= Graphics.canvasScale;
+	x2 *= Graphics.canvasScale;
+	y2 *= Graphics.canvasScale;
 
 	if (b){
 		x1 = x1 | 0;
@@ -580,9 +581,9 @@ Graphics.prototype.drawOval = function(x, y, w, h) {
 	y += h / 2;
 	var r = Math.floor((w + h) / 4);
 
-	x *= canvasScale;
-	y *= canvasScale;
-	r *= canvasScale;
+	x *= Graphics.canvasScale;
+	y *= Graphics.canvasScale;
+	r *= Graphics.canvasScale;
 
 	x = x | 0;
 	y = y | 0;
@@ -606,9 +607,9 @@ Graphics.prototype.fillOval = function(x, y, w, h) {
 	y += h / 2;
 	var r = Math.floor((w + h) / 4);
 
-	x *= canvasScale;
-	y *= canvasScale;
-	r *= canvasScale;
+	x *= Graphics.canvasScale;
+	y *= Graphics.canvasScale;
+	r *= Graphics.canvasScale;
 
 	x = x | 0;
 	y = y | 0;
@@ -632,9 +633,9 @@ Graphics.prototype.drawCircle = function(x, y, r) {
 		y += Graphics.off_y;
 	}
 
-	x *= canvasScale;
-	y *= canvasScale;
-	r *= canvasScale;
+	x *= Graphics.canvasScale;
+	y *= Graphics.canvasScale;
+	r *= Graphics.canvasScale;
 
 	x = x | 0;
 	y = y | 0;
@@ -654,8 +655,8 @@ Graphics.prototype.putImageData = function(img, x, y, obj) {
 		y += Graphics.off_y;
 	}
 
-	x *= canvasScale;
-	y *= canvasScale;
+	x *= Graphics.canvasScale;
+	y *= Graphics.canvasScale;
 
 	x = x | 0;
 	y = y | 0;
@@ -676,8 +677,8 @@ Graphics.prototype.drawImage = function(offscrn, x, y){
 		y += Graphics.off_y;
 	}
 
-	x *= canvasScale;
-	y *= canvasScale;
+	x *= Graphics.canvasScale;
+	y *= Graphics.canvasScale;
 	x = x | 0;
 	y = y | 0;
 	this.ctx.drawImage(offscrn.getCanvas(), x, y);
@@ -743,26 +744,26 @@ Clazz.newArray = function(v1, v2, v3) {
 	var a = new Array(v1);
 	
 	if (arguments.length < 3){
-		arrayInit(a, v2);	
+		this.arrayInit(a, v2);
 	}
 	else {
 		for (var i = 0; i < v1; i++){
 			var b = new Array(v2);
-			arrayInit(b, v3);
+			this.arrayInit(b, v3);
 			a[i] = b;
 		}
 	}
 	return a;
 };
 
-var arrayInit = function(n, v){
+Clazz.instanceOf = function(e, t){
+	return false;
+};
+
+Clazz.arrayInit = function(n, v){
 	for (var i = 0; i < n.length; i++){
 		n[i] = v;
 	}
-};
-
-Clazz.instanceOf = function(e, t){
-	return false;
 };
 
 function parseId(s){
@@ -3059,6 +3060,57 @@ Jmj.prototype.getGraphics = function() {
 	return g;
 };
 
+Jmj.prototype.initCanvas = function() {
+	// @FOO start
+//	var p1 = $('#page1');
+//	var w = p1.width();
+//	var h = p1.height();
+	var w = Jmj.canvas.width; //480;
+	var h = Jmj.canvas.height; //600;
+	// @FOO end
+	var dx = 1.25;
+	var d = 0.95;
+	//var max = Jmj.IMAGE_WIDTH * dx * d;
+
+// @FOO start
+	/*
+		if (w >= Jmj.IMAGE_WIDTH * dx / d){
+			w = Jmj.IMAGE_WIDTH * dx;
+		}
+		else if (w >= Jmj.IMAGE_WIDTH){
+			w *= d;
+		}
+		else {
+			w *= d;
+		}
+		canvasScale = w / Jmj.IMAGE_WIDTH;
+	*/
+	// 480x400が基本のサイズ
+	if (w / h > Jmj.IMAGE_WIDTH / Jmj.IMAGE_HEIGHT){
+		// 横に長い
+		Graphics.canvasScale = (h / Jmj.IMAGE_HEIGHT) * d;
+		var diff = (w - Jmj.IMAGE_WIDTH * (h / Jmj.IMAGE_HEIGHT))
+		Graphics.off_x = ((diff / 2) / Graphics.canvasScale) | 0;
+	}
+	else {
+		// 縦に長い
+		Graphics.canvasScale = (w / Jmj.IMAGE_WIDTH) * d;
+		var diff = (h - Jmj.IMAGE_HEIGHT * (w / Jmj.IMAGE_WIDTH))
+		Graphics.off_y = ((diff / 2) / Graphics.canvasScale) | 0;
+	}
+	return;
+// @FOO end
+
+	h = Jmj.IMAGE_HEIGHT * canvasScale;
+
+	w = Math.round(w);
+	h = Math.round(h);
+	var c1 = $('<canvas id="canvas" class="canvas" width="' + w + 'px" height="' + h + 'px">');
+
+	var m = $('#page2_content');
+	m.append(c1);
+}
+
 Jmj.KW = 0.25;
 Jmj.XR = 1024;
 Jmj.DW = 290;
@@ -4280,9 +4332,11 @@ function initJmj(e) {
 	Jmj.canvas = e.canvas;
 	// @FOO ebd
 
-	if (jmj == null){
-		initCanvas();
-	}
+	// @FOO start
+	// if (jmj == null){
+	// 	initCanvas();
+	// }
+	// @FOO end
 
 	// @FOO start
 	//// page1のリストを削除
@@ -4291,9 +4345,10 @@ function initJmj(e) {
 	// @FOO end
 
 	// リストの作成開始のフラグを初期化
-	if (jmj != null){
-		jmj.controller.patternList.data = null;
-	}
+	// @FOO start
+	// if (jmj != null){
+	// 	jmj.controller.patternList.data = null;
+	// }
 
 	// @FOO start
 	//$('#page2_content').show();
@@ -4301,23 +4356,29 @@ function initJmj(e) {
 	//$('#page4_content').show();
 	// @FOO end
 
-	if (jmj == null){
-		jmj = new Jmj();
-		jmj.init(true);
-	}
-	else {
-		//jmj.openFile('');
-		jmj.init(false);
-		jmj.reload();
-
-		if (startPage != 'page1'){
-			var main = $("#main");
-			main.find("div[data-role=collapsible-set]").collapsibleset({refresh:true});
-			main.find("div[data-role=collapsible]").collapsible({refresh:true});
-			main.find("ul[data-role=listview]").listview({refresh:true});
-		}
-	}
-	initPage(e);
+	// @FOO start
+	// if (jmj == null){
+	// 	jmj = new Jmj();
+	// 	jmj.init(true);
+	// }
+	// else {
+	// 	//jmj.openFile('');
+	// 	jmj.init(false);
+	// 	jmj.reload();
+	//
+	// 	if (startPage != 'page1'){
+	// 		var main = $("#main");
+	// 		main.find("div[data-role=collapsible-set]").collapsibleset({refresh:true});
+	// 		main.find("div[data-role=collapsible]").collapsible({refresh:true});
+	// 		main.find("ul[data-role=listview]").listview({refresh:true});
+	// 	}
+	// }
+	jmj = new Jmj();
+	jmj.initCanvas();
+	jmj.init(true);
+	// @FOO end
+	//initPage(e);
+	jmj.initPage(e);
 
 	// @FOO start
 	//$('#loading1').hide();
@@ -4325,58 +4386,8 @@ function initJmj(e) {
 	// @FOO end
 }
 
-var canvasScale = 1.0;
-function initCanvas(){
-	// @FOO start
-//	var p1 = $('#page1');
-//	var w = p1.width();
-//	var h = p1.height();
-	var w = Jmj.canvas.width; //480;
-	var h = Jmj.canvas.height; //600;
-	// @FOO end
-	var dx = 1.25;
-	var d = 0.95;
-	//var max = Jmj.IMAGE_WIDTH * dx * d;
-
 // @FOO start
 /*
-	if (w >= Jmj.IMAGE_WIDTH * dx / d){
-		w = Jmj.IMAGE_WIDTH * dx;
-	}
-	else if (w >= Jmj.IMAGE_WIDTH){
-		w *= d;
-	}
-	else {
-		w *= d;
-	}
-	canvasScale = w / Jmj.IMAGE_WIDTH;
-*/
-	// 480x400が基本のサイズ
-	if (w / h > Jmj.IMAGE_WIDTH / Jmj.IMAGE_HEIGHT){
-		// 横に長い
-		canvasScale = (h / Jmj.IMAGE_HEIGHT) * d;
-		var diff = (w - Jmj.IMAGE_WIDTH * (h / Jmj.IMAGE_HEIGHT))
-		Graphics.off_x = ((diff / 2) / canvasScale) | 0;
-	}
-	else {
-		// 縦に長い
-		canvasScale = (w / Jmj.IMAGE_WIDTH) * d;
-		var diff = (h - Jmj.IMAGE_HEIGHT * (w / Jmj.IMAGE_WIDTH))
-		Graphics.off_y = ((diff / 2) / canvasScale) | 0;
-	}
-	return;
-// @FOO end
-
-	h = Jmj.IMAGE_HEIGHT * canvasScale;
-
-	w = Math.round(w);
-	h = Math.round(h);
-	var c1 = $('<canvas id="canvas" class="canvas" width="' + w + 'px" height="' + h + 'px">');
-
-	var m = $('#page2_content');
-	m.append(c1);
-}
-
 var isInit = null;
 var startPage = null;
 
@@ -4386,8 +4397,6 @@ function initPage(e){
 	// @FOO end
 	if (jmj != null){
 		jmj.initPage(e);
-		// @FOO
-		/*
 		if (isInit[id]){
 			if (id == 'page1'){
 				jmj.initPage1();
@@ -4403,9 +4412,10 @@ function initPage(e){
 			}
 			isInit[id] = false;
 		}
-		*/
 	}
 }
+*/
+// @FOO end
 
 // @FOO
 /*
