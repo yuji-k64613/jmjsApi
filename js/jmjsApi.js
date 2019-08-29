@@ -2589,12 +2589,12 @@ Jmj.prototype.initSiteswapGraphics = function() {
 	// @FOO start
 	//var c = $('#canvas');
 	//var w = c.attr('width');
+	//w = w.replace('px', '');
+	//w = Integer.parseInt(w);
 	var c = Jmj.canvas; //document.getElementById("canvas");
-	var w = c.getAttribute("width");
+	var w = c.width;// c.getAttribute("width");
 	// @FOO end
 
-	w = w.replace('px', '');
-	w = Integer.parseInt(w);
 	for (i = 0; i < this.pattw; i++) {
 		obj = this.sbm[i];
 		if (isUndefined(obj)) {
