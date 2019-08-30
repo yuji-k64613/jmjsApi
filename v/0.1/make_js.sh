@@ -23,4 +23,4 @@ js/PatternHolder.js
 js/JmjController.js
 js/Main.js
 "
-cat ${files} > js/jmjsApi.js
+cat ${files} > js/jmjs.js
